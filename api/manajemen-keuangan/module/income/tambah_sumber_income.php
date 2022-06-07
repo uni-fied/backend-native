@@ -22,7 +22,7 @@
 
             $response['code'] = 201;
             $response['status'] = true;
-            $response['message'] = 'Yay!, Sumber pemasukan berhasil di tambahkan, Berikut isi data pemasukan Anda.';
+            $response['message'] = 'Yay!, Sumber pemasukan berhasil di tambahkan, Berikut isi data detail pemasukan Anda.';
             $response['data_pemasukan'] = [
                 "id_pemasukan"=>$fetch_row_pemasukan[0],
                 "id_user"=>$fetch_row_pemasukan[1],
