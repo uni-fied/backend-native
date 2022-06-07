@@ -11,7 +11,7 @@
         
         if(!empty($id_income) && !empty($keterangan) && !empty($jumlah_income)) {
             # Query Tambah Data Pemasukan
-            $QUERY_TAMBAH_DATA_INCOME = "INSERT INTO $table_income (id_pemasukan, keterangan, jumlah_income) VALUE ($id_income, '$keterangan', $jumlah_income);";
+            $QUERY_TAMBAH_DATA_INCOME = "INSERT INTO $table_income (id_pemasukan, keterangan, jumlah_income, jml_sisa_income) VALUE ($id_income, '$keterangan', $jumlah_income, $jumlah_income);";
             $EXEC_TAMBAH_DATA_PEMASUKAN = mysqli_query($connecting, $QUERY_TAMBAH_DATA_INCOME);
 
             # Query Ambil Data Pemasukan yang Baru di Tambahkan
@@ -27,7 +27,8 @@
                         "id_income"=>(int)$row['id_income'],
                         "id_pemasukan"=>(int)$row['id_pemasukan'],
                         "keterangan"=>$row['keterangan'],
-                        "jumlah_income"=>(int)$row['jumlah_income']
+                        "jumlah_income"=>(int)$row['jumlah_income'],
+                        "jml_sisa_income"=>(int)$row['jml_sisa_income'],
                     ));
             }
 
