@@ -16,8 +16,8 @@
         $EXECUTE_QUERY_GETTOKEN = mysqli_query($connecting, $GET_TOKEN_INDB);
         $row_data = mysqli_fetch_row($EXECUTE_QUERY_GETTOKEN);
         
-        # Query List Data Income / Pemasukan
-        $QUERY_LIST_INCOME = "SELECT $table_income.id_income, $table_user.username, $table_user.nama_user, $table_user.gender, DAYNAME($table_pemasukan_mkk.tanggal_tambah) AS hari_tambah, DATE_FORMAT($table_pemasukan_mkk.tanggal_tambah, '%d %M %Y') AS tgl_tambah_income, DATE_FORMAT($table_pemasukan_mkk.tanggal_tambah, '%T') AS waktu_tambah, $table_pemasukan_mkk.kategori_inc, $table_income.keterangan, $table_income.jumlah_income FROM $table_income JOIN $table_pemasukan_mkk ON $table_pemasukan_mkk.id_pemasukan=$table_income.id_pemasukan JOIN $table_user ON $table_user.id_user=$table_pemasukan_mkk.id_user WHERE MONTHNAME($table_pemasukan_mkk.tanggal_tambah) = '$switchmonth' AND YEAR($table_pemasukan_mkk.tanggal_tambah) = $switchyear;";
+        # Query List Data Income / Pemasukan (Tampilkan data terbaru paling atas)
+        $QUERY_LIST_INCOME = "SELECT $table_income.id_income, $table_user.username, $table_user.nama_user, $table_user.gender, DAYNAME($table_pemasukan_mkk.tanggal_tambah) AS hari_tambah, DATE_FORMAT($table_pemasukan_mkk.tanggal_tambah, '%d %M %Y') AS tgl_tambah_income, DATE_FORMAT($table_pemasukan_mkk.tanggal_tambah, '%T') AS waktu_tambah, $table_pemasukan_mkk.kategori_inc, $table_income.keterangan, $table_income.jumlah_income, $table_income.jml_sisa_income AS 'sisa_pemasukan' FROM $table_income JOIN $table_pemasukan_mkk ON $table_pemasukan_mkk.id_pemasukan=$table_income.id_pemasukan JOIN $table_user ON $table_user.id_user=$table_pemasukan_mkk.id_user WHERE MONTHNAME($table_pemasukan_mkk.tanggal_tambah) = '$switchmonth' AND YEAR($table_pemasukan_mkk.tanggal_tambah) = $switchyear ORDER BY $table_pemasukan_mkk.tanggal_tambah DESC;";
 
         # Eksekusi Query List Data Income
         $EXECUTE_LIST_INCOME = mysqli_query($connecting, $QUERY_LIST_INCOME);
@@ -47,7 +47,7 @@
             $response['code'] = 200;
             $response['status'] = true;
             $response['periode'] = $switchmonth . ' ' . $switchyear;
-            $response['message'] = 'Data dashboard berhasil di ambil';
+            $response['message'] = 'Data dashboard berhasil di load.';
             $response['uid'] = $row_data[0];
             $response['informasi_saldo'] = [
                 "jml_saldo" => (int)$EXECUTE_GET_TOTAL_SALDO[0],
@@ -68,7 +68,8 @@
                     'waktu_tambah'=>$row[6],
                     'kategori_inc'=>$row[7],
                     'keterangan'=>$row[8],
-                    'jumlah_income'=>(int)$row[9]
+                    'jumlah_income'=>(int)$row[9],
+                    'jml_sisa_income'=>(int)$row[10]
                 ));
             }
             $response['data_income'] = $result;
