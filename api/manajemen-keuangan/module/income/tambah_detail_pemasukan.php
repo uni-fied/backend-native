@@ -11,11 +11,11 @@
         
         if(!empty($id_income) && !empty($keterangan) && !empty($jumlah_income)) {
             # Query Tambah Data Pemasukan
-            $QUERY_TAMBAH_DATA_INCOME = "INSERT INTO $table_income (id_pemasukan, keterangan, jumlah_income, jml_sisa_income) VALUE ($id_income, '$keterangan', $jumlah_income, $jumlah_income);";
+            $QUERY_TAMBAH_DATA_INCOME = "INSERT INTO tbl_data_income (id_pemasukan, keterangan, jumlah_income, jml_sisa_income) VALUE ($id_income, '$keterangan', $jumlah_income, $jumlah_income);";
             $EXEC_TAMBAH_DATA_PEMASUKAN = mysqli_query($connecting, $QUERY_TAMBAH_DATA_INCOME);
 
             # Query Ambil Data Pemasukan yang Baru di Tambahkan
-            $QUERY_GET_NEW_ADDED = "SELECT * FROM  $table_income ORDER BY id_income DESC LIMIT 1;";
+            $QUERY_GET_NEW_ADDED = "SELECT * FROM tbl_data_income ORDER BY id_income DESC LIMIT 1;";
             $EXEC_GET_DATA_NEW_ADDED = mysqli_query($connecting, $QUERY_GET_NEW_ADDED);
 
             $result = array();

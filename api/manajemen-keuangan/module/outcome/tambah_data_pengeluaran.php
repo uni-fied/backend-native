@@ -10,9 +10,10 @@
         $headline_out       = $_POST['kategori_out'];
         $detail_pengeluaran = $_POST['detail_out'];
         $jml_pengeluaran    = $_POST['jml_out'];
+        $waktu_pengeluaran  = $_POST['waktu_outcome'];
         
         # 1 Tambah Data Pengeluaran
-        $QUERY_TAMBAH_DATA_OUTCOME = "INSERT INTO tbl_pengeluaran_mkk (id_income, id_user, kategori_out) VALUES ($id_income, $id_user, '$headline_out');";
+        $QUERY_TAMBAH_DATA_OUTCOME = "INSERT INTO tbl_pengeluaran_mkk (id_income, id_user, tanggal_pengeluaran, kategori_out) VALUES ($id_income, $id_user, '$waktu_pengeluaran', '$headline_out');";
         $EXEC_TAMBAH_DATA_OUTCOME = mysqli_query($connecting, $QUERY_TAMBAH_DATA_OUTCOME);
 
         # 1.1 Mengambil data terakhir yang ditambahkan

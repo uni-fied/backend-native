@@ -64,7 +64,7 @@
         } else {
             $response['code'] = 404;
             $response['status'] = false;
-            $response['message'] = 'Data pengeluaran bulan ' . $switchmonth . " " . $switchyear . ' tidak tersedia!';
+            $response['message'] = 'Data pengeluaran bulan ' . $switchmonth . " " . $switchyear . ' belum ada.';
         }
 
         echo json_encode($response);

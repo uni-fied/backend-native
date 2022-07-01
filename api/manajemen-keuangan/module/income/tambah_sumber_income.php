@@ -5,12 +5,13 @@
     $response = array();
 
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
-        $userid         = $_POST['userid'];
-        $kategori       = $_POST['kategori_income'];
+        $userid           = $_POST['userid'];
+        $waktu_tambah_inc = $_POST['waktu_tambah'];
+        $kategori         = $_POST['kategori_income'];
         
         if(!empty($userid) && !empty($kategori)) {
             # Query Tambah Pemasukan
-            $QUERY_TAMBAH_PEMASUKAN = "INSERT INTO $table_pemasukan_mkk (id_user, kategori_inc) VALUE ($userid, '$kategori');";
+            $QUERY_TAMBAH_PEMASUKAN = "INSERT INTO tbl_pemasukan_mkk (id_user, tanggal_tambah, kategori_inc) VALUE ($userid, '$waktu_tambah_inc', '$kategori');";
             $EXEC_TAMBAH_PEMASUKAN = mysqli_query($connecting, $QUERY_TAMBAH_PEMASUKAN);
 
             # Query Ambil Data Pemasukan yang Baru di Tambahkan

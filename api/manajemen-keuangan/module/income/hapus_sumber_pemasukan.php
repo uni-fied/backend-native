@@ -8,17 +8,17 @@
         $id_pemasukan = $_POST['id_pemasukan'];
 
         # Query cek ketersediaan data
-        $QUERY_CEK_ID_PEMASUKAN = mysqli_query($connecting, "SELECT COUNT(*) AS 'ketersediaan_data' FROM $table_pemasukan_mkk WHERE id_pemasukan = 5;");
+        $QUERY_CEK_ID_PEMASUKAN = mysqli_query($connecting, "SELECT COUNT(*) AS 'ketersediaan_data' FROM tbl_pemasukan_mkk WHERE id_pemasukan = 5;");
         $available_data = mysqli_fetch_row($QUERY_CEK_ID_PEMASUKAN);
 
         # Pengecekan jika data ada maka hapus, dan sebaliknya
         if ($available_data[0] != 0) {
             # Cek Jumlah Data Source di Database
-            $QUERY_CEK_JML_DATA = mysqli_query($connecting, "SELECT COUNT(*) AS 'jml_data_source' FROM $table_pemasukan_mkk;");
+            $QUERY_CEK_JML_DATA = mysqli_query($connecting, "SELECT COUNT(*) AS 'jml_data_source' FROM tbl_pemasukan_mkk;");
             $jml_data = mysqli_fetch_row($QUERY_CEK_JML_DATA);
 
             # Hapus data source pemasukan
-            $QUERY_HAPUS_DATA = mysqli_query($connecting, "DELETE FROM $table_pemasukan_mkk WHERE (id_pemasukan = $id_pemasukan);");
+            $QUERY_HAPUS_DATA = mysqli_query($connecting, "DELETE FROM tbl_pemasukan_mkk WHERE (id_pemasukan = $id_pemasukan);");
 
             # Set Increment by Jumlah data - 1
             $set_increment = $jml_data[0] - 1;
