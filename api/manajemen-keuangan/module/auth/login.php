@@ -20,20 +20,19 @@
             if ($versiapp == $versionapp_api && $buildver == $build_version_api) {
 
                 # 1 Cek user exist pada database berdasarkan username & password
-                $LOGIN_USER = "SELECT COUNT(*) 'user_terdaftar' FROM $table_user WHERE username = '$username' AND kunci = MD5('$pwd');";
+                $LOGIN_USER = "SELECT COUNT(*) 'user_terdaftar' FROM tbl_user WHERE username = '$username' AND kunci = MD5('$pwd');";
         
                 # Eksekusi Query Cari user
                 $EXECUTE_LOGIN = mysqli_query($connecting, $LOGIN_USER);
     
                 # Ambil Hasil data dari Respon MySQL
                 $row = mysqli_fetch_row($EXECUTE_LOGIN);
-
     
                 switch ($row[0]) {
                     case 1:
                         
                         # 2 Ambil Data User Login
-                        $GET_USER_DETAILS = "SELECT * FROM $table_user WHERE username = '$username' AND kunci = MD5('$pwd');";
+                        $GET_USER_DETAILS = "SELECT * FROM tbl_user WHERE username = '$username' AND kunci = MD5('$pwd');";
                         $EXECUTE_QUERY_DETAILS = mysqli_query($connecting, $GET_USER_DETAILS);
     
                         # 3 Mengambil Id User untuk Log History
@@ -41,7 +40,7 @@
                         $row_data = mysqli_fetch_row($EXECUTE_QUERY_GETROW);
     
                         # 4 Pengecekan Lisensi Akun
-                        $QUERY_CHECK_LISENSI = "SELECT IF(lisensi_akun IS NULL OR lisensi_akun = '', 'empty', lisensi_akun) AS lisensi_akun FROM $table_user WHERE id_user = $row_data[0];";
+                        $QUERY_CHECK_LISENSI = "SELECT IF(lisensi_akun IS NULL OR lisensi_akun = '', 'empty', lisensi_akun) AS lisensi_akun FROM tbl_user WHERE id_user = $row_data[0];";
                         $EXECUTE_CHECK_LISENSI = mysqli_query($connecting, $QUERY_CHECK_LISENSI);
 
                         $row_licence = mysqli_fetch_row($EXECUTE_CHECK_LISENSI);
@@ -57,15 +56,15 @@
                                 $random_token = md5(uniqid($row_data[0], true));
             
                                 # 6 Proses Input Data log History
-                                $LOG_HISTORY_SET = "INSERT INTO $table_log_history (id_user, waktu_akses, versi_apps, build_version, token_akses_log, aksi) VALUES ($row_data[0], '$accesstime', '$versiapp', '$buildver', '$random_token', '$action');";
+                                $LOG_HISTORY_SET = "INSERT INTO tbl_log_history_mkk (id_user, waktu_akses, versi_apps, build_version, token_akses_log, aksi) VALUES ($row_data[0], '$accesstime', '$versiapp', '$buildver', '$random_token', '$action');";
                                 $EXECUTE_QUERY_LOGING = mysqli_query($connecting, $LOG_HISTORY_SET);
             
                                 # 7 Proses Input Token Akses Generate
-                                $UPDATE_TOKEN_TBL_USER = "UPDATE $table_user SET token_akses = '$random_token', last_access = '$accesstime' WHERE id_user = $row_data[0];";
+                                $UPDATE_TOKEN_TBL_USER = "UPDATE tbl_user SET token_akses = '$random_token', last_access = '$accesstime' WHERE id_user = $row_data[0];";
                                 $EXECUTE_UPDATE_TOKEN = mysqli_query($connecting, $UPDATE_TOKEN_TBL_USER);    
             
                                 # 8 Get Data User for Show in Response
-                                $GET_USER = "SELECT * FROM $table_user WHERE username = '$username' AND kunci = md5('$pwd');";
+                                $GET_USER = "SELECT * FROM tbl_user WHERE username = '$username' AND kunci = md5('$pwd');";
                                 $EXECUTE_QUERY_GET_USER = mysqli_query($connecting, $GET_USER);
             
                                 $result = array();
