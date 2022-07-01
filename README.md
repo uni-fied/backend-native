@@ -3,13 +3,11 @@ Berikut merupakan update changelog backend untuk aplikasi Bokebre (Manajemen Keu
 
 ## :fire: Backend - Bokebre `V1.0 Beta` 1st Release 
 *Jum'at, 01 Juni 2022 09:45 WIB*
-- [x] Dapat Mengelola Pemasukan
-- [x] Dapat Mengelola Pengeluaran
-- [x] Dapat Menampilkan Jumlah Saldo saat ini (perlu di refresh dengan pindah ke tab lain lebih dahulu dan akan mereload update setelah penambahan atau pemotongan pemasukan)
-- [x] Login Multi User
-- [x] Setiap User bisa menambahkan Pemasukan dan Pengeluaran
-- [x] Setiap User bisa menghapus Pemasukan dan Pengeluaran
-- [x] Login hanya bisa dilakukan di 1 Device jika diakses di device lain maka user restricted
-- [x] Menampilkan List Pengeluaran & Pemasukan
+- [x] Dapat Menambah Pemasukan
+- [x] Dapat Menambah Pengeluaran berdasarkan Item Pemasukan yang Dipilih
+- [x] Dapat Menampilkan Jumlah Saldo saat ini & Menampilkan List Pemasukan
+- [x] Login Multi User dalam 1 Aplikasi
+- [x] Dapat Melakukan Login hanya bisa dilakukan di 1 Device jika diakses di device lain maka user restricted
+- [x] Menampilkan List Pengeluaran
 - [x] Menampilkan Informasi User
-- [x] 3 Menu Utama Pemasukan, Pengeluaran & Tabungan
+- [x] Dapat Menghapus Pemasukan & Pengeluaran berdasarkan Item yang dipilih
