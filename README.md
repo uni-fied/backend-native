@@ -2,6 +2,7 @@
 Berikut merupakan update changelog backend untuk aplikasi Bokebre (Manajemen Keuangan Keluarga), Untuk rilis sudah update versi `BETA V1.0 Beta Rilis`, Berikut updatenya
 
 ## :fire: Backend - Bokebre V1.0 Beta Release 
+*Jum'at, 01 Juni 2022 09:45 WIB*
 - [x] Dapat Mengelola Pemasukan
 - [x] Dapat Mengelola Pengeluaran
 - [x] Dapat Menampilkan Jumlah Saldo saat ini (perlu di refresh dengan pindah ke tab lain lebih dahulu dan akan mereload update setelah penambahan atau pemotongan pemasukan)
