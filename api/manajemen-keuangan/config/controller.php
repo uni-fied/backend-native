@@ -1,12 +1,12 @@
 <?php
 
-    $switch_server = "HOSTING";
+    $switch_server = "LOCAL";
 
     # Deploy to New Hosting @ 01 Juni 2022 09.11 WIB - V1.0 BETA
 
     # Version API
-    $versionapp_api                       = "V1.0 BETA";
-    $build_version_api                    = "Build 07062022.0935.1";
+    $versionapp_api                       = "V1.1 BETA";
+    $build_version_api                    = "Build 07062022.0935.2";
 
     # 1. Build 30042022.110910
     # 2. Build 07062022.0935.1
@@ -18,7 +18,7 @@
             $host_db                   = "127.0.0.1";
             $username_db               = "root";
             $key_db                    = "";
-            $db_name                   = "lts_db_managerial_dev";
+            $db_name                   = "db_softask_dev";
             break;
         case "HOSTING":
             # Server 000webhost
