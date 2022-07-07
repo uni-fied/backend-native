@@ -64,7 +64,7 @@
                                 $EXECUTE_UPDATE_TOKEN = mysqli_query($connecting, $UPDATE_TOKEN_TBL_USER);    
             
                                 # 8 Get Data User for Show in Response
-                                $GET_USER = "SELECT * FROM tbl_user WHERE username = '$username' AND kunci = md5('$pwd');";
+                                $GET_USER = "SELECT tbl_user.id_user, tbl_user.kode_user, tbl_user.id_group, tbl_group_user.deskripsi_group, tbl_user.nama_user, tbl_user.gender, tbl_user.alias, tbl_user.username, tbl_user.kunci, tbl_user.email, tbl_user.tanggal_terdaftar, tbl_user.last_access, tbl_user.token_akses, tbl_user.lisensi_akun FROM tbl_user JOIN tbl_group_user ON tbl_group_user.id_group=tbl_user.id_group WHERE username = '$username' AND kunci = md5('$pwd');";
                                 $EXECUTE_QUERY_GET_USER = mysqli_query($connecting, $GET_USER);
             
                                 $result = array();
@@ -74,6 +74,8 @@
                                         $result, array (
                                             "id_user"=>$row['id_user'],
                                             "kode_user"=>$row['kode_user'],
+                                            "id_group"=>$row['id_group'],
+                                            "deskripsi_group"=>$row['deskripsi_group'],
                                             "nama_user"=>$row['nama_user'],
                                             "gender"=>$row['gender'],
                                             "alias"=>$row['alias'],

@@ -10,6 +10,7 @@
         $tokenakses     = $_POST['token_akses_dashboard'];
         $switchmonth    = $_POST['this_month'];
         $switchyear     = $_POST['init_year'];
+        $groupid        = $_POST['id_group'];
 
         # Mengambil Token Akses Dari Database
         $GET_TOKEN_INDB = "SELECT kode_user, token_akses FROM tbl_user WHERE id_user = $userid;";
@@ -17,20 +18,20 @@
         $row_data = mysqli_fetch_row($EXECUTE_QUERY_GETTOKEN);
         
         # Query List Data Income / Pemasukan (Tampilkan data terbaru paling atas)
-        $QUERY_LIST_INCOME = "SELECT tbl_data_income.id_income, tbl_user.username, tbl_user.nama_user, tbl_user.gender, DAYNAME(tbl_pemasukan_mkk.tanggal_tambah) AS hari_tambah, DATE_FORMAT(tbl_pemasukan_mkk.tanggal_tambah, '%d %M %Y') AS tgl_tambah_income, DATE_FORMAT(tbl_pemasukan_mkk.tanggal_tambah, '%T') AS waktu_tambah, tbl_pemasukan_mkk.kategori_inc, tbl_data_income.keterangan, tbl_data_income.jumlah_income, tbl_data_income.jml_sisa_income AS 'sisa_pemasukan' FROM tbl_data_income JOIN tbl_pemasukan_mkk ON tbl_pemasukan_mkk.id_pemasukan=tbl_data_income.id_pemasukan JOIN tbl_user ON tbl_user.id_user=tbl_pemasukan_mkk.id_user WHERE MONTHNAME(tbl_pemasukan_mkk.tanggal_tambah) = '$switchmonth' AND YEAR(tbl_pemasukan_mkk.tanggal_tambah) = $switchyear ORDER BY tbl_pemasukan_mkk.tanggal_tambah DESC;";
+        $QUERY_LIST_INCOME = "SELECT tbl_data_income.id_income, tbl_user.username, tbl_user.nama_user, tbl_user.gender, DAYNAME(tbl_pemasukan_mkk.tanggal_tambah) AS hari_tambah, DATE_FORMAT(tbl_pemasukan_mkk.tanggal_tambah, '%d %M %Y') AS tgl_tambah_income, DATE_FORMAT(tbl_pemasukan_mkk.tanggal_tambah, '%T') AS waktu_tambah, tbl_pemasukan_mkk.kategori_inc, tbl_data_income.keterangan, tbl_data_income.jumlah_income, tbl_data_income.jml_sisa_income AS 'sisa_pemasukan' FROM tbl_data_income JOIN tbl_pemasukan_mkk ON tbl_pemasukan_mkk.id_pemasukan=tbl_data_income.id_pemasukan JOIN tbl_user ON tbl_user.id_user=tbl_pemasukan_mkk.id_user WHERE MONTHNAME(tbl_pemasukan_mkk.tanggal_tambah) = '$switchmonth' AND YEAR(tbl_pemasukan_mkk.tanggal_tambah) = $switchyear AND tbl_user.id_group = $groupid ORDER BY tbl_pemasukan_mkk.tanggal_tambah DESC;";
 
         # Eksekusi Query List Data Income
         $EXECUTE_LIST_INCOME = mysqli_query($connecting, $QUERY_LIST_INCOME);
         
         # Query Cek Jumlah Data Income / Pemasukan
-        $QUERY_JML_INCOME = "SELECT COUNT(*) AS 'jumlah_data' FROM tbl_data_income JOIN tbl_pemasukan_mkk ON tbl_pemasukan_mkk.id_pemasukan=tbl_data_income.id_pemasukan JOIN tbl_user ON tbl_user.id_user=tbl_pemasukan_mkk.id_user WHERE MONTHNAME(tbl_pemasukan_mkk.tanggal_tambah) = '$switchmonth' AND YEAR(tbl_pemasukan_mkk.tanggal_tambah) = $switchyear;";
+        $QUERY_JML_INCOME = "SELECT COUNT(*) AS 'jumlah_data' FROM tbl_data_income JOIN tbl_pemasukan_mkk ON tbl_pemasukan_mkk.id_pemasukan=tbl_data_income.id_pemasukan JOIN tbl_user ON tbl_user.id_user=tbl_pemasukan_mkk.id_user WHERE MONTHNAME(tbl_pemasukan_mkk.tanggal_tambah) = '$switchmonth' AND YEAR(tbl_pemasukan_mkk.tanggal_tambah) = $switchyear AND tbl_user.id_group = $groupid;";
 
         # Eksekusi Query List Data Income
         $EXECUTE_QUERY_JML_INCOME = mysqli_query($connecting, $QUERY_JML_INCOME);
         $jml_income_available = mysqli_fetch_row($EXECUTE_QUERY_JML_INCOME);
 
         # Query Get Jumlah Saldo Bulan Ini
-        $QUERY_GET_TOTAL_SALDO_THIS_MONTH = mysqli_query($connecting, "SELECT SUM(tbl_data_income.jumlah_income) AS 'jumlah_saldo' FROM tbl_pemasukan_mkk JOIN tbl_data_income ON tbl_data_income.id_pemasukan=tbl_pemasukan_mkk.id_pemasukan WHERE MONTHNAME(tbl_pemasukan_mkk.tanggal_tambah) = '$switchmonth' AND YEAR(tbl_pemasukan_mkk.tanggal_tambah) = $switchyear;");
+        $QUERY_GET_TOTAL_SALDO_THIS_MONTH = mysqli_query($connecting, "SELECT SUM(tbl_data_income.jumlah_income) AS 'jumlah_saldo' FROM tbl_pemasukan_mkk JOIN tbl_data_income ON tbl_data_income.id_pemasukan=tbl_pemasukan_mkk.id_pemasukan JOIN tbl_user ON tbl_user.id_user=tbl_pemasukan_mkk.id_user JOIN tbl_group_user ON tbl_group_user.id_group=tbl_user.id_group WHERE MONTHNAME(tbl_pemasukan_mkk.tanggal_tambah) = '$switchmonth' AND YEAR(tbl_pemasukan_mkk.tanggal_tambah) = $switchyear AND tbl_user.id_user = $userid AND tbl_user.id_group = $groupid;");
         $EXECUTE_GET_TOTAL_SALDO = mysqli_fetch_row($QUERY_GET_TOTAL_SALDO_THIS_MONTH);
     
         $result = array();
@@ -50,10 +51,7 @@
             $response['message'] = 'Data dashboard berhasil di load.';
             $response['uid'] = $row_data[0];
             $response['informasi_saldo'] = [
-                "jml_saldo" => (int)$EXECUTE_GET_TOTAL_SALDO[0],
-                "jml_pengeluaran" => 0, // not use in apps
-                "jml_tabungan" => 0,  // not use in apps
-                "jml_budget_sedekah" => 0 // not use in apps
+                "jml_saldo" => (int)$EXECUTE_GET_TOTAL_SALDO[0]
             ];
 
             while($row = mysqli_fetch_array($EXECUTE_LIST_INCOME)){
